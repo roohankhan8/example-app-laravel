@@ -4,6 +4,8 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ExpenseController;
+use App\Models\Expense;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,14 +25,11 @@ Route::get('/', function () {
     // if(auth()->check()){
     //     $posts=auth()->user()->usersCoolPosts()->latest()->get();
     // }
-    return view('home', ['posts' => $posts]);
+    return view('home', ['posts' => $posts->latest()]);
 });
 Route::get('/welcome', function () {
     return view('welcome');
 });
-// Route::post('/register', function () {
-//     return 'thanks';
-// });
 
 //User related
 Route::post('/register', [UserController::class, 'register']);
@@ -42,3 +41,19 @@ Route::post('/create-post', [PostController::class, 'createPost']);
 Route::get('/edit-post/{post}', [PostController::class, 'showEditScreen']);
 Route::put('/edit-post/{post}', [PostController::class, 'actuallyEditPost']);
 Route::delete('/delete-post/{post}', [PostController::class, 'deletePost']);
+
+//Tracker related
+
+Route::post('/add-expense', [ExpenseController::class, 'actuallyAddExpense']);
+
+Route::get('/add-expense', function(){
+    return view('add-expense');
+});
+Route::get('/dashboard', function(){
+    // $expenses = Expense::all();
+    $expenses=[];
+    if(auth()->check()){
+        $expenses=auth()->user()->usersExpenses()->latest()->get();
+    }
+    return view('dashboard', ['expenses'=> $expenses]);
+});

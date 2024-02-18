@@ -11,7 +11,7 @@
 
 <body>
     @auth
-        <?php include '../resources/components/navbar.blade.php'; ?>
+        <?php include '../resources/components/navbar.php'; ?>
         <form class="nav-item" action="/logout" method="POST">
             @csrf
             <button class="btn btn-danger">Logout</button>
