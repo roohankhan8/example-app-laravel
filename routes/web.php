@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -16,13 +17,16 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    // $posts = Post::all();
+    $posts = Post::all();
     // $posts = Post::where('user_id',auth()->id())->get();
-    $posts=[];
-    if(auth()->check()){
-        $posts=auth()->user()->usersCoolPosts()->latest()->get();
-    }
+    // $posts=[];
+    // if(auth()->check()){
+    //     $posts=auth()->user()->usersCoolPosts()->latest()->get();
+    // }
     return view('home', ['posts' => $posts]);
+});
+Route::get('/welcome', function () {
+    return view('welcome');
 });
 // Route::post('/register', function () {
 //     return 'thanks';

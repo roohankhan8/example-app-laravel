@@ -40,12 +40,11 @@ class PostController extends Controller
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
         $post->update($incomingFields);
-        return redirect('/');   
+        return redirect('/');
     }
-    public function deletePost(Post $post){
-        if (auth()->user()->id === $post->user_id) {
-            $post->delete();
-        }
+    public function deletePost(Post $post)
+    {
+        $post->delete();
         return redirect('/');
     }
 }
