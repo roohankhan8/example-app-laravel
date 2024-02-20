@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="../resources/css/app.css">
+    {{-- <link rel="stylesheet" href="../resources/css/app.css"> --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 </head>
@@ -19,27 +19,29 @@
 
     @media (max-width: 600px) {
         #expenses-container {
-            gap: 1rem;
+            gap: 0.5rem;
         }
     }
 
     @media (min-width: 601px) and (max-width: 991px) {
         #expenses-container {
-            gap: 1rem;
+            gap: 0.5rem;
         }
     }
 
     @media (min-width:992px) {
         #expenses-container {
-            gap: 4rem;
+            gap: 1rem;
         }
     }
 </style>
 
 <body>
     <?php include '../resources/components/sidenav.php'; ?>
-    <nav class="d-flex navbar navbar-light bg-light justify-content-between p-2 mb-2 border-bottom align-items-center" style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Menu</button>
+    <nav class="d-flex navbar navbar-light bg-light justify-content-between p-2 mb-2 border-bottom align-items-center"
+        style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Menu</button>
         <h1>Expense Tracker</h1>
         <a class="btn btn-success" href="/add-expense">Create</a>
     </nav>
@@ -51,7 +53,7 @@
                 <tr>
                     <th>Expenses</th>
                     <th>Income</th>
-                    <th>Total</th>                    
+                    <th>Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,18 +65,30 @@
             </tbody>
         </table>
     </div>
-    <div id="expenses-container" class="container-fluid d-flex justify-content-center align-items-center">
-        @foreach ($expenses as $expense)
-            <div class="card">
-                <div class="card-body ">
-                    <h5 class="card-title">{{ $expense->category }}</h5>
-                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ $expense->typeOfExpense }}</h6>
-                    <p class="card-text">${{ $expense->amount }}</p>
-                    <a href="#" class="card-link btn btn-success">Edit</a>
-                    <a href="#" class="card-link btn btn-danger">Delete</a>
+    <div class="container-fluid d-flex justify-content-center align-items-center my-3">
+        <form action="/dashboard" method="post">
+            @csrf
+            <input type="month" name="date" id="date" value="<?php echo $date; ?>">
+            <button type="submit" class="btn btn-success">Go</button>
+        </form>
+    </div>
+    <div id="expenses-container" class="container-fluid d-flex justify-content-center align-items-center py-2">
+        @if ($expenses)
+            @foreach ($expenses as $expense)
+                <div class="card">
+                    <div class="card-body ">
+                        <h5 class="card-title">{{ $expense->category }}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ $expense->typeOfExpense }}</h6>
+                        <p class="card-text">${{ $expense->amount }}</p>
+                        <p class="card-text"><small>{{ $expense->created_at->format('d/m/Y') }}</small></p>
+                        <a href="#" class="card-link btn btn-success">Edit</a>
+                        <a href="#" class="card-link btn btn-danger">Delete</a>
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        @else
+            <h1>No expenses for this month</h1>
+        @endif
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

@@ -19,7 +19,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <ul>
+        <ul class="text-bold">
             <a href="/dashboard">
                 <li>Dashboard</li>
             </a>

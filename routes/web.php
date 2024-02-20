@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExpenseController;
-use App\Models\Expense;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ Route::get('/', function () {
     // if(auth()->check()){
     //     $posts=auth()->user()->usersCoolPosts()->latest()->get();
     // }
-    return view('home', ['posts' => $posts->latest()]);
+    return view('home', ['posts' => $posts]);
 });
 Route::get('/welcome', function () {
     return view('welcome');
@@ -45,15 +45,11 @@ Route::delete('/delete-post/{post}', [PostController::class, 'deletePost']);
 //Tracker related
 
 Route::post('/add-expense', [ExpenseController::class, 'actuallyAddExpense']);
+Route::post('/dashboard',  [ExpenseController::class, 'fetchExpensesOfDesiredMonth']);
 
-Route::get('/add-expense', function(){
+Route::get('/add-expense', function () {
     return view('add-expense');
 });
-Route::get('/dashboard', function(){
-    // $expenses = Expense::all();
-    $expenses=[];
-    if(auth()->check()){
-        $expenses=auth()->user()->usersExpenses()->latest()->get();
-    }
-    return view('dashboard', ['expenses'=> $expenses]);
-});
+Route::get('/dashboard', [ExpenseController::class, 'fetchExpensesOfCurrentMonth']);
+
+

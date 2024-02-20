@@ -35,6 +35,6 @@ class UserController extends Controller
         if (auth()->attempt(['email' => $incomingFields['loginEmail'], 'password' => $incomingFields['loginPassword']])) {
             $request->session()->regenerate();
         }
-        return redirect('/');
+        return redirect('/dashboard');
     }
 }

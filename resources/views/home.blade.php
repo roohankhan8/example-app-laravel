@@ -16,6 +16,7 @@
             @csrf
             <button class="btn btn-danger">Logout</button>
         </form>
+        <a href="/dashboard" class="btn btn-info">Dashboard</a>
         <div class="container-fluid">
             <div class="p-2">
                 <h2 class="text-center">CREATE POST</h2>
