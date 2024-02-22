@@ -3,6 +3,7 @@
         list-style-type: none;
         margin: 0;
         padding: 0;
+        border: 1px solid black;
     }
     ul li {
         border: 1px solid black;
@@ -28,6 +29,9 @@
             </a>
             <a href="/charts">
                 <li>Charts</li>
+            </a>
+            <a href="/logout">
+                <li>Logout</li>
             </a>
         </ul>
     </div>

@@ -25,7 +25,7 @@ class ExpenseController extends Controller
 
     public function fetchExpensesOfCurrentMonth()
     {
-        if (auth()) {
+        if (auth()->user()) {
             $date = Carbon::now()->format('Y') . '-' . Carbon::now()->format('m');
             $currentMonth = Carbon::now()->format('m');
             $currentYear = Carbon::now()->format('Y');
@@ -39,23 +39,6 @@ class ExpenseController extends Controller
         } else {
             return redirect('/');
         }
-        // if (auth()) {
-        //     $expenses = [];
-
-        //     $currentMonth = Carbon::now()->format('m');
-        //     $currentYear = Carbon::now()->format('Y');
-
-        //     $expenses = auth()->user()
-        //         ->usersExpenses()
-        //         ->whereMonth('created_at', $currentMonth)
-        //         ->whereYear('created_at', $currentYear)
-        //         ->latest()
-        //         ->get();
-
-        //     return view('dashboard', ['expenses' => $expenses]);
-        // } else {
-        //     return redirect('/');
-        // }
     }
 
     public function fetchExpensesOfDesiredMonth(Request $request)
@@ -72,5 +55,13 @@ class ExpenseController extends Controller
             ->get();
 
         return view('dashboard', ['expenses' => $expenses, 'date' => $date]);
+    }
+
+    public function showEditScreen(Expense $expense){
+        if (auth()->user()->id !== $expense->user_id) {
+            return redirect('/');
+        } else {
+            return view('add-expense', ['expense' => $expense]);
+        }
     }
 }

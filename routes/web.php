@@ -45,11 +45,14 @@ Route::delete('/delete-post/{post}', [PostController::class, 'deletePost']);
 //Tracker related
 
 Route::post('/add-expense', [ExpenseController::class, 'actuallyAddExpense']);
-Route::post('/dashboard',  [ExpenseController::class, 'fetchExpensesOfDesiredMonth']);
-
 Route::get('/add-expense', function () {
     return view('add-expense');
 });
+
+Route::post('/dashboard',  [ExpenseController::class, 'fetchExpensesOfDesiredMonth']);
 Route::get('/dashboard', [ExpenseController::class, 'fetchExpensesOfCurrentMonth']);
+
+Route::get('/edit-expense/{expense}', [ExpenseController::class, 'showEditScreen']);
+Route::put('/edit-expense/{expense}', [ExpenseController::class, 'actuallyEditExpense']);
 
 
