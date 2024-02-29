@@ -54,5 +54,6 @@ Route::get('/dashboard', [ExpenseController::class, 'fetchExpensesOfCurrentMonth
 
 Route::get('/edit-expense/{expense}', [ExpenseController::class, 'showEditScreen']);
 Route::put('/edit-expense/{expense}', [ExpenseController::class, 'actuallyEditExpense']);
+Route::delete('/delete-expense/{expense}', [ExpenseController::class, 'deleteExpense']);
 
 

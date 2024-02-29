@@ -16,8 +16,6 @@ class ExpenseController extends Controller
             'typeOfExpense' => 'required',
             'amount' => 'required',
         ]);
-        $incomingFields['category'] = strip_tags($incomingFields['category']);
-        $incomingFields['typeOfExpense'] = strip_tags($incomingFields['typeOfExpense']);
         $incomingFields['user_id'] = auth()->id();
         $expense = Expense::create($incomingFields);
         return redirect('dashboard');
@@ -30,12 +28,12 @@ class ExpenseController extends Controller
             $currentMonth = Carbon::now()->format('m');
             $currentYear = Carbon::now()->format('Y');
             $expenses = auth()->user()
-            ->usersExpenses()
-            ->whereMonth('created_at', $currentMonth)
-            ->whereYear('created_at', $currentYear)
-            ->latest()
-            ->get();
-            return view('dashboard', ['expenses' => $expenses, 'date'=> $date]);
+                ->usersExpenses()
+                ->whereMonth('created_at', $currentMonth)
+                ->whereYear('created_at', $currentYear)
+                ->latest()
+                ->get();
+            return view('dashboard', ['expenses' => $expenses, 'date' => $date]);
         } else {
             return redirect('/');
         }
@@ -57,11 +55,22 @@ class ExpenseController extends Controller
         return view('dashboard', ['expenses' => $expenses, 'date' => $date]);
     }
 
-    public function showEditScreen(Expense $expense){
+    public function showEditScreen(Expense $expense)
+    {
         if (auth()->user()->id !== $expense->user_id) {
             return redirect('/');
         } else {
             return view('add-expense', ['expense' => $expense]);
         }
+    }
+
+    public function actuallyEditExpense(Request $request, Expense $expense){
+        return 'hi';
+    }
+
+    public function deleteExpense(Expense $expense)
+    {
+        $expense->delete();
+        return redirect('/dashboard');
     }
 }

@@ -96,11 +96,11 @@
                         <p class="card-text">${{ $expense->amount }}</p>
                         <p class="card-text"><small>{{ $expense->created_at->format('d/m/Y') }}</small></p>
                         <a href="/edit-expense/{{ $expense->id }}" class="card-link btn btn-success">Edit</a>
-                        <form class="card-link btn btn-danger" action="/delete-expense/{{ $expense->id }}"
+                        <form class="card-link btn" action="/delete-expense/{{ $expense->id }}"
                             method="post">
                             @csrf
                             @method('DELETE')
-                            Delete
+                            <button class="btn btn-danger" type="submit">DELETE</button>
                         </form>
                     </div>
                 </div>
