@@ -5,10 +5,12 @@
         padding: 0;
         border: 1px solid black;
     }
+
     ul li {
         border: 1px solid black;
         padding: 1rem;
     }
+
     a {
         text-decoration: none;
         color: black;
@@ -30,9 +32,10 @@
             <a href="/charts">
                 <li>Charts</li>
             </a>
-            <a href="/logout">
-                <li>Logout</li>
-            </a>
+            <!-- <form class="nav-item" action="/logout" method="POST">
+                @csrf
+                <button class="btn btn-danger">Logout</button>
+            </form> -->
         </ul>
     </div>
 </div>

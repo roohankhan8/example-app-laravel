@@ -65,7 +65,13 @@ class ExpenseController extends Controller
     }
 
     public function actuallyEditExpense(Request $request, Expense $expense){
-        return 'hi';
+        $incomingFields = $request->validate([
+            'category' => 'required',
+            'typeOfExpense' => 'required',
+            'amount' => 'required',
+        ]);
+        $expense->update($incomingFields);
+        return redirect('/dashboard');
     }
 
     public function deleteExpense(Expense $expense)

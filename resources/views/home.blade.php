@@ -32,10 +32,7 @@
             <hr>
             <div class="cards d-flex flex-column gap-4 my-4 align-items-center justify-content-center">
                 @foreach ($posts as $post)
-                    <div 
-                    class="card shadow" 
-                    style="width: 100%"
-                    >
+                    <div class="card shadow" style="width: 100%">
                         <div class="card-body">
                             <h5 class="card-title">{{ $post['title'] }} by {{ $post->user->name }}</h5>
                             <p class="card-text">{{ $post['body'] }}</p>
@@ -56,24 +53,26 @@
         </div>
         <div>
         @else
-            <div>
-                <h1>Register</h1>
-                <form action="/register" method="POST">
-                    @csrf
-                    <input type="text" placeholder="Full Name" name="name">
-                    <input type="email" placeholder="Email" name="email">
-                    <input type="password" placeholder="Password" name="password">
-                    <button>Register</button>
-                </form>
-            </div>
-            <div>
-                <h1>Login</h1>
-                <form action="/login" method="POST">
-                    @csrf
-                    <input type="email" placeholder="Email" name="loginEmail">
-                    <input type="password" placeholder="Password" name="loginPassword">
-                    <button>Login</button>
-                </form>
+            <div class="container-fluid d-flex flex-column gap-2 border">
+                <div class="border p-2 my-2">
+                    <h1 class="text-center">Register</h1>
+                    <form class="d-flex flex-column gap-2" action="/register" method="POST">
+                        @csrf
+                        <input type="text" placeholder="Full Name" name="name">
+                        <input type="email" placeholder="Email" name="email">
+                        <input type="password" placeholder="Password" name="password">
+                        <button class="btn btn-primary">Register</button>
+                    </form>
+                </div>
+                <div class="border p-2 my-2">
+                    <h1 class="text-center">Login</h1>
+                    <form class="d-flex flex-column gap-2" action="/login" method="POST">
+                        @csrf
+                        <input type="email" placeholder="Email" name="loginEmail">
+                        <input type="password" placeholder="Password" name="loginPassword">
+                        <button class="btn btn-primary">Login</button>
+                    </form>
+                </div>
             </div>
         @endauth
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

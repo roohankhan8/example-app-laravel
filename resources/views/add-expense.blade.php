@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{isset($expense) ? 'Edit' : 'Add'}} Expense</title>
+    <title>{{ isset($expense) ? 'Edit' : 'Add' }} Expense</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 </head>
@@ -30,69 +30,47 @@ $typesOfIncomes = [['salary', 'Salary'], ['allowance', 'Allowance'], ['bonus', '
 
 <body style="background-color: antiquewhite"
     class="container d-flex flex-column justify-content-center align-items-center ">
-    <form 
-        style="background-color: burlywood" 
-        action={{isset($expense) ? url("/edit-expense/{$expense['id']}") : url('/add-expense')}}
-        method="POST"
-        class=" p-5 my-5 d-flex flex-column gap-3 rounded"
-    >
+    <form style="background-color: burlywood"
+        action={{ isset($expense) ? url("/edit-expense/{$expense['id']}") : url('/add-expense') }} method="POST"
+        class=" p-5 my-5 d-flex flex-column gap-3 rounded">
         @csrf
         {{ isset($expense) ? method_field('PUT') : '' }}
         <h3 class="text-center">
-            <?php if (isset($expense)) {
-                echo 'Edit';
-            } else {
-                echo 'Add';
-            }
-            ?>
+            {{ isset($expense) ? 'Edit' : 'Add' }}
             Expense</h3>
-        <select class="p-2" onchange="showType(this.value)" name="category" id="category">
+        <select class="p-2" onchange="showCategory(this.value)" name="category" id="category">
             @foreach ($categories as $category)
                 <option value="{{ $category[0] }}"
                     {{ isset($expense) && $expense['category'] == $category[0] ? 'selected' : '' }}>{{ $category[1] }}
                 </option>
             @endforeach
         </select>
-        <div id="expenseCategory">
+        <div id="expenseCategory" class={{ isset($expense) && $expense['category'] == 'expense' ? '' : 'hidden' }}>
             @foreach ($typesOfExpenses as $typeOfExpense)
                 <label>
-                    <input type="radio" name="typeOfExpense" id={{ $typeOfExpense[0] }} value={{ $typeOfExpense[0] }}
-                        {{isset($expense) && $expense['typeOfExpense'] == $typeOfExpense[0] ? 'checked': ''}}
-                        
-                        <?php
-                        // if (isset($expense)) {
-                        //     if ($expense['typeOfExpense'] == $typeOfExpense[0]) {
-                        //         echo 'checked';
-                        //     }
-                        // } elseif ($typeOfExpense[0] == 'food') {
-                        //     echo 'checked';
-                        // }
-                        ?>
+                    <input type="radio" name="typeOfExpense" id="{{ $typeOfExpense[0] }}" value="{{ $typeOfExpense[0] }}"
+                        {{ (isset($expense) && $expense['typeOfExpense'] == $typeOfExpense[0]) || $typeOfExpense[0] == 'food' ? 'checked' : '' }}
                         >
                     {{ $typeOfExpense[1] }}
                 </label>
             @endforeach
         </div>
-        <div id="incomeCategory" class="hidden">
+        <div id="incomeCategory" class={{ isset($expense) && $expense['category'] == 'income' ? '' : 'hidden' }}>
             @foreach ($typesOfIncomes as $typeOfIncome)
                 <label>
-                    <input type="radio" name="typeOfIncome" id={{ $typeOfIncome[0] }} value={{ $typeOfIncome[0] }}
-                        {{isset($expense) && $expense['typeOfIncome'] == $typeOfIncome[0] ? 'checked' : '' }}
-                        <?php
-                        // if (isset($expense)) {
-                        //     if ($expense['typeOfIncome'] == $typeOfIncome[0]) {
-                        //         echo 'checked';
-                        //     }
-                        // }
-                        ?>>{{ $typeOfIncome[1] }}
+                    <input type="radio" name="typeOfExpense" id="{{ $typeOfIncome[0] }}" value="{{ $typeOfIncome[0] }}"
+                    {{ (isset($expense) && $expense['typeOfExpense'] == $typeOfIncome[0]) || $typeOfIncome[0] == 'salary' ? 'checked' : '' }}
+                        >{{ $typeOfIncome[1] }}
                 </label>
             @endforeach
         </div>
-        <input type="number" placeholder="Amount" name="amount" min="1" value={{isset($expense) ? $expense['amount'] : ''}}>
-        <button type="submit" class="btn btn-primary rounded">{{isset($expense) ? 'Edit' : 'Add'}}</button>
+        <input type="number" placeholder="Amount" name="amount" min="1"
+            value="{{ isset($expense) ? $expense['amount'] : '' }}">
+        <button type="submit" class="btn btn-primary rounded">{{ isset($expense) ? 'Edit' : 'Add' }}</button>
+        <a href="/dashboard" class="btn btn-danger">Cancel</a>
     </form>
 </body>
-<script>
+<script type="text/javascript">
     const expenseCategory = document.getElementById('expenseCategory')
     const incomeCategory = document.getElementById('incomeCategory')
     const food = document.getElementById('food')
@@ -104,7 +82,7 @@ $typesOfIncomes = [['salary', 'Salary'], ['allowance', 'Allowance'], ['bonus', '
 
     // document.getElementById('food').checked = true
 
-    function showType(category) {
+    function showCategory(category) {
         if (category === 'expense') {
             expenseCategory.classList.remove("hidden")
             incomeCategory.classList.add("hidden")
@@ -122,6 +100,9 @@ $typesOfIncomes = [['salary', 'Salary'], ['allowance', 'Allowance'], ['bonus', '
             // console.log(categoryBox.value)
             console.log(food.value, salary.value)
         }
+    }
+    function showTypeOfExpense(typeOfExpense) {
+        console.log(typeOfExpense)
     }
 </script>
 

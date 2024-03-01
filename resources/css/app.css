@@ -1,0 +1,11 @@
+:root {
+    --primary-color: #3498db;
+}
+body {
+    background-color: var(--primary-color);
+    font-size: var(--font-size);
+}
+
+.header {
+    color: var(--primary-color);
+}
